@@ -1,8 +1,8 @@
 import React from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-
 import axios from "axios";
+import Map from "google-maps-react";
 class Main extends React.Component {
   constructor(props) {
     super(props);
@@ -12,7 +12,6 @@ class Main extends React.Component {
     };
   }
   formChange = (e) => {
-    e.preventDefault();
     this.setState({
       cityName: e.target.value,
     });
@@ -23,7 +22,7 @@ class Main extends React.Component {
     const url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${this.state.cityName}&format=json`;
     console.log(url);
     const response = await axios.get(url);
-    console.log(response.data);
+    console.log(response.data[0]);
     this.setState({
       location: response.data[0],
     });
@@ -50,8 +49,18 @@ class Main extends React.Component {
         <div>
           <h2>location information</h2>
           <p>name: {this.state.location.display_name}</p>
-          <p> lat {this.state.location.lat}</p>
-          <p> lon{this.state.location.lon}</p>
+          <p> lat: {this.state.location.lat}</p>
+          <p> lon: {this.state.location.lon}</p>
+        </div>
+        <div>
+          <Map
+            zoom={14}
+            google={this.props.google}
+            initialCenter={{
+              lat: this.state.location.lat,
+              lng: this.state.location.lon,
+            }}
+          ></Map>
         </div>
       </div>
     );
