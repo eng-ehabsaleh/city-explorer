@@ -1,41 +1,60 @@
 import React from "react";
-// import Form from 'react-bootstrap/Form'
-// import Label from 'react-bootstrap/Label'
-class Main extends React.Component{
-constructor(props){
-    super(props)
-    this.state={
-        cityName:'',
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
-    }
-}
-formSubmit=(e)=>{
+import axios from "axios";
+class Main extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      cityName: "",
+      location: {},
+    };
+  }
+  formChange = (e) => {
     e.preventDefault();
     this.setState({
-        cityName:e.target.value
-    })
+      cityName: e.target.value,
+    });
+  };
+  formSubmit = async (e) => {
+    e.preventDefault();
     console.log(this.state.cityName);
-}
-render(){
-    return(
-        <div>
-            <form onSubmit={this.formSubmit}>
-                <h2>City name</h2>
-                <input type='text' placeholder='enter the city name' />
-                <input type='submit' value='Explore!' />
-            </form>
-    {/* <Form>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-    <Form.Label>Email address</Form.Label>
-    <Form.Control type="email" placeholder="name@example.com" />
-  </Form.Group>
-  <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-    <Form.Label>Example textarea</Form.Label>
-    <Form.Control as="textarea" rows={3} />
-  </Form.Group>
-</Form> */}
-</div>)
-}
+    const url = `https://eu1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&q=${this.state.cityName}&format=json`;
+    console.log(url);
+    const response = await axios.get(url);
+    console.log(response.data);
+    this.setState({
+      location: response.data[0],
+    });
+  };
 
+  render() {
+    return (
+      <div>
+        <Form onSubmit={this.formSubmit}>
+          <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Label>City Name</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="enter the name of the city"
+              onChange={this.formChange}
+            />
+            <Form.Text className="text-muted"></Form.Text>
+          </Form.Group>
+
+          <Button variant="primary" type="submit">
+            Submit
+          </Button>
+        </Form>
+        <div>
+          <h2>location information</h2>
+          <p>name: {this.state.location.display_name}</p>
+          <p> lat {this.state.location.lat}</p>
+          <p> lon{this.state.location.lon}</p>
+        </div>
+      </div>
+    );
+  }
 }
-export default Main
+export default Main;
