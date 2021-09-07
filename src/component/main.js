@@ -29,13 +29,6 @@ class Main extends React.Component {
       location: res.data[0],
       mapurl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.state.location.lat},${this.state.location.lon}&zoom=18&size=100x180&format=png&maptype=<MapType>&markers=icon:<icon>|${this.state.location.lat},${this.state.location.lon}&markers=icon:<icon>|${this.state.location.lat},${this.state.location.lon}`,
     });
-    // console.log(res);
-
-    // const response = await axios.get(url);
-    // console.log(response.data[0]);
-    // this.setState({
-    //   location: response.data[0],
-    // });
   };
 
   render() {
@@ -80,10 +73,3 @@ class Main extends React.Component {
   }
 }
 export default Main;
-
-// <div>
-//   <h2>location information</h2>
-//   <p>name: {this.state.location.display_name}</p>
-//   <p> lat: {this.state.location.lat}</p>
-//   <p> lon: {this.state.location.lon}</p>
-// </div>
