@@ -11,6 +11,7 @@ class Main extends React.Component {
     this.state = {
       cityName: "",
       location: {},
+      mapurl: "",
     };
   }
   formChange = (e) => {
@@ -26,6 +27,7 @@ class Main extends React.Component {
     const res = await axios.get(url);
     this.setState({
       location: res.data[0],
+      mapurl: `https://maps.locationiq.com/v3/staticmap?key=${process.env.REACT_APP_KEY}&center=${this.state.location.lat},${this.state.location.lon}&zoom=18&size=100x180&format=png&maptype=<MapType>&markers=icon:<icon>|${this.state.location.lat},${this.state.location.lon}&markers=icon:<icon>|${this.state.location.lat},${this.state.location.lon}`,
     });
     // console.log(res);
 
@@ -56,13 +58,9 @@ class Main extends React.Component {
         </Form>
         <div>
           <Card style={{ width: "18rem" }}>
-            <Card.Img variant="top" src="holder.js/100px180?text=Image cap" />
+            <Card.Img variant="top" src={this.state.mapurl} />
             <Card.Body>
               <Card.Title>Card Title</Card.Title>
-              <Card.Text>
-                Some quick example text to build on the card title and make up
-                the bulk of the card's content.
-              </Card.Text>
             </Card.Body>
             <ListGroup className="list-group-flush">
               <ListGroupItem>
