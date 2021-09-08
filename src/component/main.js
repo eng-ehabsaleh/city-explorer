@@ -13,6 +13,7 @@ class Main extends React.Component {
       showErrMsg: false,
       showLocation: false,
       errMsg: "error: Unable to geocode",
+      weather: [],
     };
   }
   formChange = (e) => {
@@ -25,12 +26,15 @@ class Main extends React.Component {
     try {
       console.log(this.state.cityName);
       const url = `GET https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_KEY}&city=${this.state.cityName}&format=json`;
+      const serverUrl = `${process.env.React_app_SERVER}/weather?city_name=${this.state.cityName}&lat=${this.state.location.lat}&lon=${this.state.location.lon}`;
       console.log(url);
       const res = await axios.get(url);
+      const backRes = await axios.get(serverUrl);
       this.setState({
         location: res.data[0],
         showErrMsg: false,
         showLocation: true,
+        weather: serverUrl.data,
       });
     } catch (err) {
       this.setState({
@@ -63,7 +67,12 @@ class Main extends React.Component {
           </Button>
         </Form>
         <div>
-          {this.state.showLocation && <Cardy location={this.state.location} />}
+          {this.state.showLocation && (
+            <Cardy
+              location={this.state.location}
+              weather={this.state.weather}
+            />
+          )}
         </div>
       </div>
     );
