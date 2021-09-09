@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import axios from "axios";
 import Cardy from "./Card";
 import Alert from "react-bootstrap/Alert";
+import Movie from "./Movie";
 class Main extends React.Component {
   constructor(props) {
     super(props);
