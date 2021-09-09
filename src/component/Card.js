@@ -29,9 +29,10 @@ class Cardy extends React.Component {
             </ListGroupItem>
             <ListGroupItem>lat: {this.props.location.lat}</ListGroupItem>
             <ListGroupItem>lon: {this.props.location.lon}</ListGroupItem>
-            <ListGroupItem>date: {this.props.weather.date}</ListGroupItem>
+            {/* <ListGroupItem>date: {this.props.weather.valid_date}</ListGroupItem> */}
+            <ListGroupItem>date: {this.props.weather.ob_time}</ListGroupItem>
             <ListGroupItem>
-              description: {this.props.weather.descriptin}
+              description: {this.props.weather.weather.descriptin}
             </ListGroupItem>
           </ListGroup>
           {/* <Card.Body>
